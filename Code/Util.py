@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import sys
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 sys.path.append('./SRC')
 import random
 import glob
@@ -21,8 +21,18 @@ def loadHeader(ID,idToPath):
     return header
 
 def loadMR(path):
-    img = nib.load(path).get_data()
+    #img = nib.load(path).get_data()
+    img = nib.load(path).get_fdata()
     return img
+
+def calculateMeanImg(paths):
+    imgSum = np.zeros(loadMR(paths[0]).shape)
+    for i,path in enumerate(paths):
+        if i%250==0:
+            print(str(i)+' done')
+        img = loadMR(path)
+        imgSum += img
+    return imgSum/float(paths.shape[0])
 
 def plotLayerWeights(model,layerNr=1):
     #x1w = model.get_layer(index=layerNr).get_weights()[0][:,:,:,0,:]
@@ -58,8 +68,7 @@ def getFeatureMaps(model,features,layerNr=27,subjectNr=1,figSize=(20,10),max_iLe
         plt.show()
 
         
-def plotData(features,subjectNr=1,c=5,d = 12,nSlices = 10,figsize=(20,10),inputShape=dataShape,augment=False,training=False,resize=True):
-    batch_data,_,_ = getBatchData(features[subjectNr:subjectNr+1,:], 1,inputShape=dataShape,resizeImg=resize,augment=augment)
+def plotData(batch_data,subjectNr=1,c=5,d = 12,nSlices = 10,figsize=(20,10),inputShape=dataShape,augment=False,training=False,resize=True):
     fig,axs = plt.subplots(1, nSlices,figsize=figsize)
     for i in range(nSlices):
         axs[i].imshow(batch_data[0,:,:,d*(i+c),0],interpolation="spline16",cmap='gray')
