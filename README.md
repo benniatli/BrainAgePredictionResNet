@@ -1,18 +1,7 @@
 # Brain Age Prediction Residual Neural Network
 
 ## Description
-A 3D residual neural network (ResNet) trained on MRI images to perform brain age prediction implemented using TensorFlow (version 2.1.0). The method was trained on four image types: raw T1 images, Jacobian maps, and gray and white matter segmentation maps. In our experiments, the ResNet was trained and evaluated on an Icelandic brain MRI dataset (1264 healthy subjects) and the [IXI dataset](https://brain-development.org/ixi-dataset/) (440 images), and then used to generating brain age predictions for the [UK Biobank](https://www.ukbiobank.ac.uk/register-apply/) (19642 subjects). For a detailed discription of the method see [Brain age prediction using deep learning uncovers associated sequence variants](https://www.nature.com/articles/s41467-019-13163-9). If you find this work useful in your research, please cite: 
-
-    @article{jonsson2019brain,
-      title={Brain age prediction using deep learning uncovers associated sequence variants},
-      author={J{\'o}nsson, Benedikt Atli and Bjornsdottir, Gyda and Thorgeirsson, TE and Ellingsen, Lotta Mar{\'\i}a and Walters, G Bragi and Gudbjartsson, DF and Stefansson, Hreinn and Stefansson, Kari and Ulfarsson, MO},
-      journal={Nature communications},
-      volume={10},
-      number={1},
-      pages={1--10},
-      year={2019},
-      publisher={Nature Publishing Group}
-    }
+A 3D residual neural network (ResNet) trained on MRI images to perform brain age prediction implemented using TensorFlow (version 2.1.0). The method was trained on four image types: raw T1 images, Jacobian maps, and gray and white matter segmentation maps. In our experiments, the ResNet was trained and evaluated on an Icelandic brain MRI dataset (1264 healthy subjects) and the [IXI dataset](https://brain-development.org/ixi-dataset/) (440 images), and then used to generating brain age predictions for the [UK Biobank](https://www.ukbiobank.ac.uk/register-apply/) (19642 subjects). For a detailed discription of the method see [Brain age prediction using deep learning uncovers associated sequence variants](https://www.nature.com/articles/s41467-019-13163-9).
 
 ## Notebooks
 Notebooks detailing the training of the ResNets and generation of UK Biobank predictions are provided for the four image types: [raw T1 images](Code/ResNet_TrainingAndInference(RawT1).ipynb), [Jacobian maps](Code/ResNet_TrainingAndInference(Jacobian).ipynb), [gray matter segmentation maps](Code/ResNet_TrainingAndInference(GrayMatter).ipynb), [white matter segmentation maps](Code/ResNet_TrainingAndInference(WhiteMatter).ipynb). Note that [raw T1 images](Code/ResNet_TrainingAndInference(RawT1).ipynb) is currently the only notebook to have a complete training run, rest of the training runs will be added soon.
@@ -37,6 +26,21 @@ Note that the current ResNet version can only handle two scanner sources. In cas
 
 ### Generating brain age predictions for the UK Biobank
 To generate brain age predictions for the UK Biobank data it is necessary to download the MRI brain scans from [UK Biobank](https://www.ukbiobank.ac.uk/register-apply/) and place the preprocessed NIFTI files in the folder Data/CAT_UK_Biobank.
+
+## Citing
+
+ If you find this work useful in your research, please consider citing: 
+
+    @article{jonsson2019brain,
+      title={Brain age prediction using deep learning uncovers associated sequence variants},
+      author={J{\'o}nsson, Benedikt Atli and Bjornsdottir, Gyda and Thorgeirsson, TE and Ellingsen, Lotta Mar{\'\i}a and Walters, G Bragi and Gudbjartsson, DF and Stefansson, Hreinn and Stefansson, Kari and Ulfarsson, MO},
+      journal={Nature communications},
+      volume={10},
+      number={1},
+      pages={1--10},
+      year={2019},
+      publisher={Nature Publishing Group}
+    }
 
 ## Todo
 * Add notebook training runs and pretrained models for all four image types.
