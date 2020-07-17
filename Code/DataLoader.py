@@ -1,7 +1,9 @@
+import threading
 from transformations import rotation_matrix
 from random import gauss
+from scipy.ndimage.interpolation import map_coordinates
 import operator
-from scipy.ndimage.interpolation import shift,rotate,map_coordinates
+from scipy.ndimage.interpolation import shift,rotate
 import pandas as pd
 import os
 import scipy.ndimage as nd
@@ -28,22 +30,26 @@ def getIcelandicData(imageType):
     if imageType == 'RawT1':
         t1Paths  = glob.glob(path+'*/anatomy/CAT/mri/wm*.nii')
         par1 = 2
+        par2 = 0
     elif imageType == 'GrayMatter':
         t1Paths  = glob.glob(path+'*/anatomy/CAT/mri/mwp1*.nii')
         par1 = 4
+        par2 = 0
     elif imageType == 'WhiteMatter':
         t1Paths  = glob.glob(path+'*/anatomy/CAT/mri/mwp2*.nii')
         par1 = 4
+        par2 = 0
     elif imageType == 'Jacobian':
         t1Paths  = glob.glob(path+'*/anatomy/CAT/mri/wj*.nii')
-        par1 = 2
+        par1 = 0
+        par2 = 1
     uniqeKeyToPath = defaultdict(str)
     uniqeKeyToAsc = defaultdict(str)
     for i in t1Paths:
         img_info = i.split('/')[-1].split('_')
-        uniqeKey = img_info[0][par1:]+'_'+img_info[3]
+        uniqeKey = img_info[0+par2][par1:]+'_'+img_info[3+par2]
         uniqeKeyToPath[uniqeKey] = i
-        uniqeKeyToAsc[uniqeKey] = img_info[0][par1:]
+        uniqeKeyToAsc[uniqeKey] = img_info[0+par2][par1:]
 
     uniqeKey = pd.DataFrame.from_dict(uniqeKeyToAsc,orient='index')
     uniqeKey = uniqeKey.rename(columns={0: "Asc"})
@@ -77,7 +83,7 @@ def getIXIData(imageType):
     elif imageType == 'WhiteMatter':
         paths = glob.glob(path+'*/T1/mri/mwp2*.nii')
     elif imageType == 'Jacobian':
-        t1Paths  = glob.glob(path+'*/T1/mri/wj*.nii')
+        paths  = glob.glob(path+'*/T1/mri/wj*.nii')
     idToPath = defaultdict(list)
     
     for i in paths:
@@ -131,7 +137,7 @@ def getUKBData(imageType):
 
 class dataGenerator(Sequence):
     'Generates data for Keras'
-    def __init__(self, features, labels, batch_size=32,meanImg=None, dim=(121, 145, 121),maxAngle=40,maxShift=10, shuffle=True,augment=False):
+    def __init__(self, features, labels, batch_size=32,meanImg=None, dim=(121, 145, 121),maxAngle=40,maxShift=10, shuffle=True,augment=False,includeScannerGender=True):
         'Initialization'
         self.batch_size = batch_size
         self.features = features
@@ -142,6 +148,7 @@ class dataGenerator(Sequence):
         self.maxAngle = maxAngle
         self.maxShift = maxShift
         self.shuffle = shuffle
+        self.IncludeScannerGender = includeScannerGender
         self.on_epoch_end()
         
     def __len__(self):
@@ -175,16 +182,22 @@ class dataGenerator(Sequence):
         #X = np.empty((self.batch_size, self.dim[0],self.dim[1],self.dim[2]),dtype=np.uint8)
         X = np.empty((self.batch_size, self.dim[0],self.dim[1],self.dim[2], 1))
         age = np.empty((self.batch_size))
-        sex = np.empty((self.batch_size))
-        scanner = np.empty((self.batch_size))
+        if self.IncludeScannerGender: 
+            sex = np.empty((self.batch_size))
+            scanner = np.empty((self.batch_size))
         # Generate data
         for i, index in enumerate(indexes):
             X[i,:,:,:,:] = processing(self.features[0][index],self.dim,self.meanImg,augment=self.augment)
-            scanner[i] = self.features[1][index]
-            sex[i] = self.features[2][index]
             age[i] = self.labels[index]
-            
-        return [X,scanner,sex], [age]
+            if self.IncludeScannerGender: 
+                scanner[i] = self.features[1][index]
+                sex[i] = self.features[2][index]
+                
+        
+        if self.IncludeScannerGender: 
+            return [X,scanner,sex], [age]
+        else:
+            return [X], [age]
 
 
 def resize3d(image,new_shape,order=3):

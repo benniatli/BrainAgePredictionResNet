@@ -7,6 +7,7 @@ from tensorflow.keras.layers import BatchNormalization as BatchNorm
 from tensorflow.keras.models import Model
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 from tensorflow.keras.optimizers import Adam, SGD,Adagrad
+#import tensorflow.compat.v1 as tf
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import pandas as pd
@@ -28,10 +29,9 @@ def regression_hinge(y_true, y_pred):
     epsilon = 2
     return K.mean(K.maximum(K.abs(y_true - y_pred) - epsilon, 0.), axis=-1)
 
-def generateAgePredictionResNet(inputShape,paddingType = 'same',initType='he_uniform',regAmount=0.00005,dropRate=0.2):
+def generateAgePredictionResNet(inputShape,paddingType = 'same',initType='he_uniform',regAmount=0.00005,dropRate=0.2,includeScannerGender=True):
     t1Input = Input(inputShape+(1,), name='T1_Img')
-    scanner  = Input((1,), name='Scanner')
-    gender  = Input((1,), name='Gender')
+    
         
     with tf.name_scope('ResBlock0'):
         inputs = t1Input
@@ -110,9 +110,15 @@ def generateAgePredictionResNet(inputShape,paddingType = 'same',initType='he_uni
     hidden = ELU(alpha=1.0)(hidden)
     hidden = Dropout(dropRate)(hidden)
     
-    hidden = concatenate([scanner,gender,hidden])
+    if includeScannerGender:
+        scanner  = Input((1,), name='Scanner')
+        gender  = Input((1,), name='Gender')
+        hidden = concatenate([scanner,gender,hidden])
     
     prediction = Dense(1,kernel_regularizer=L2(regAmount), name='AgePrediction')(hidden)
-    model = Model(inputs=[t1Input,scanner,gender],outputs=prediction)
+    if includeScannerGender:
+        model = Model(inputs=[t1Input,scanner,gender],outputs=prediction)
+    else:
+        model = Model(inputs=[t1Input],outputs=prediction)
     return model
     
