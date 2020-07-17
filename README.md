@@ -7,7 +7,7 @@ A 3D residual neural network (ResNet) trained on MRI images to perform brain age
 Notebooks detailing the training of the ResNets and generation of UK Biobank predictions are provided for the four image types: [raw T1 images](Code/ResNet_TrainingAndInference(RawT1).ipynb), [Jacobian maps](Code/ResNet_TrainingAndInference(Jacobian).ipynb), [gray matter segmentation maps](Code/ResNet_TrainingAndInference(GrayMatter).ipynb), [white matter segmentation maps](Code/ResNet_TrainingAndInference(WhiteMatter).ipynb). Note that [raw T1 images](Code/ResNet_TrainingAndInference(RawT1).ipynb) is currently the only notebook to have a complete training run, rest of the training runs will be added soon.
 
 ## Pretrained Networks
-Pretrained 3D residual networks can be found in the Models directory. In the current version only pretrained models for the Raw T1 image type are provided, however, the rest of the pretrained models will be added soon. Until then pretrianed models for all four image types can be found in the [previous release](https://zenodo.org/record/3824139).
+Pretrained 3D residual networks can be found in the Models directory.
 
 ## Setup
 
@@ -43,7 +43,5 @@ To generate brain age predictions for the UK Biobank data it is necessary to dow
     }
 
 ## Todo
-* Add notebook training runs and pretrained models for all four image types.
-* Add a notebook with results for the combined brain age predictions.
 * Add code for models trained on SBM and VBM features, such as, Gaussian process regression and SVR.
 * Add CAT12 toolbox preprocessing script.
