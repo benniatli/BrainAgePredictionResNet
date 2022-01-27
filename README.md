@@ -44,4 +44,3 @@ To generate brain age predictions for the UK Biobank data it is necessary to dow
 
 ## Todo
 * Add code for models trained on SBM and VBM features, such as, Gaussian process regression and SVR.
-* Add CAT12 toolbox preprocessing script.
