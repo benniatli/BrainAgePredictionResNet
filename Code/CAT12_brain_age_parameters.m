@@ -18,6 +18,6 @@ matlabbatch{1}.spm.tools.cat.estwrite.output.WM.mod = 1;
 matlabbatch{1}.spm.tools.cat.estwrite.output.WM.dartel = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.output.bias.warped = 1;
 matlabbatch{1}.spm.tools.cat.estwrite.output.jacobian.warped = 1;
-matlabbatch{1}.spm.tools.cat.estwrite.output.warps = [0 0];"
+matlabbatch{1}.spm.tools.cat.estwrite.output.warps = [0 0];
 
 
