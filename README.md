@@ -12,7 +12,7 @@ Pretrained 3D residual networks can be found in the Models directory.
 ## Setup
 
 ### Preprocessing
-All MRI images need to be preprocessed using the [CAT12 toolbox](http://www.neuro.uni-jena.de/cat/). The MRI template that was used for coregisteration has been removed in the latest version CAT12 (Template_1_IXI555_MNI152.nii). This template can be found in [Version 12.6](https://zenodo.org/record/2573967#.Yinrs4nP0uW) of CAT12. However, for best compatability with the trained models it is likly best to use the same version that we originally used for preprocessing the data (Version 1092)[http://www.neuro.uni-jena.de/cat12/cat12_r1092.zip].
+All MRI images need to be preprocessed using the [CAT12 toolbox](http://www.neuro.uni-jena.de/cat/). The MRI template that was used for coregisteration has been removed in the latest version CAT12 (Template_1_IXI555_MNI152.nii). This template can be found in [Version 12.6](https://zenodo.org/record/2573967#.Yinrs4nP0uW) of CAT12. However, for best compatability with the trained models it is likly best to use the same version that we originally used for preprocessing the data ([Version 1092](http://www.neuro.uni-jena.de/cat12/cat12_r1092.zip)).
 
 ### Replacing the training data
 The Icelandic dataset that was use for training is not publicly available, however, it can be replaced with any sufficiantly large MRI dataset. The training code provided in the notebooks can be reused by replacing the train, val, test data frames with new data. For new data frames it is necessary to proved four columns: **Loc**, **Scanner**, **Gender**, **Age**. 
