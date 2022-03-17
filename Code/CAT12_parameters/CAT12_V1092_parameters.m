@@ -1,4 +1,4 @@
-matlabbatch{1}.spm.tools.cat.estwrite.data = {'inputFileHere,1'};
+matlabbatch{1}.spm.tools.cat.estwrite.data = '<UNDEFINED>';
 matlabbatch{1}.spm.tools.cat.estwrite.nproc = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.opts.tpm = {'/spm12/tpm/TPM.nii'};
 matlabbatch{1}.spm.tools.cat.estwrite.opts.affreg = 'mni';
@@ -19,5 +19,3 @@ matlabbatch{1}.spm.tools.cat.estwrite.output.WM.dartel = 0;
 matlabbatch{1}.spm.tools.cat.estwrite.output.bias.warped = 1;
 matlabbatch{1}.spm.tools.cat.estwrite.output.jacobian.warped = 1;
 matlabbatch{1}.spm.tools.cat.estwrite.output.warps = [0 0];
-
-
